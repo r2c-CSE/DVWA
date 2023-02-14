@@ -1,4 +1,10 @@
 version: 2.1
+
+workflows:
+  test-env-vars:
+    jobs:
+      - build:
+          context: dev # has an env var called dev
 jobs:
   semgrep-scan:
     parameters:
@@ -19,7 +25,7 @@ jobs:
       # SEMGREP_REPO_NAME: '$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME'
       # SEMGREP_REPO_URL: << pipeline.project.git_url >>
       # SEMGREP_BRANCH: << pipeline.git.branch >>
-
+      SEMGREP_APP_TOKEN=$SEMGREP_APP_TOKEN
     docker:
       - image: returntocorp/semgrep
     steps:
@@ -35,7 +41,9 @@ jobs:
       #         echo 'export SEMGREP_JOB_URL=$CIRCLE_BUILD_URL' >> $BASH_ENV
       - run:
           name: "Semgrep scan"
-          command: semgrep ci
+          command: |
+            echo $SEMGREP_APP_TOKEN
+            semgrep ci
 workflows:
   main:
     jobs:
