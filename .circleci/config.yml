@@ -20,7 +20,7 @@ jobs:
       # SEMGREP_REPO_NAME: '$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME'
       # SEMGREP_REPO_URL: << pipeline.project.git_url >>
       # SEMGREP_BRANCH: << pipeline.git.branch >>
-      SEMGREP_APP_TOKEN=$SEMGREP_APP_TOKEN
+      # SEMGREP_APP_TOKEN=$SEMGREP_APP_TOKEN
     docker:
       - image: returntocorp/semgrep
     steps:
@@ -39,12 +39,13 @@ jobs:
           command: |
             echo $SEMGREP_APP_TOKEN
             echo $SEMGREP_REPO_NAME
-            echo 'export SEMGREP_APP_TOKEN=$SEMGREP_APP_TOKEN'
-            echo 'export SEMGREP_REPO_NAME=$SEMGREP_REPO_NAME'
+            echo 'export SEMGREP_APP_TOKEN=$SEMGREP_APP_TOKEN' >> $BASH_ENV
+            echo 'export SEMGREP_REPO_NAME=$SEMGREP_REPO_NAME' >> $BASH_ENV
             semgrep ci
 
 workflows:
   test-env-vars:
     jobs:
       - semgrep-scan:
-          context: dev # has an env var called dev
+          context: 
+            - dev # has an env var called dev
