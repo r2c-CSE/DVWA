@@ -39,7 +39,9 @@ jobs:
           command: |
             echo $SEMGREP_APP_TOKEN
             semgrep ci
+
 workflows:
-  main:
+  test-env-vars:
     jobs:
-      - semgrep-scan
+      - semgrep-scan:
+          context: dev # has an env var called dev
