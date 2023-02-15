@@ -38,6 +38,9 @@ jobs:
           name: "Semgrep scan"
           command: |
             echo $SEMGREP_APP_TOKEN
+            echo $SEMGREP_REPO_NAME
+            echo 'export SEMGREP_APP_TOKEN=$SEMGREP_APP_TOKEN'
+            echo 'export SEMGREP_REPO_NAME=$SEMGREP_REPO_NAME'
             semgrep ci
 
 workflows:
