@@ -20,7 +20,7 @@ jobs:
     docker:
       - image: returntocorp/semgrep
     steps:
-      - run: git clone -b "$CIRCLE_BRANCH" "$CIRCLE_REPOSITORY_URL"
+      - run: git clone -b --depth=1000 "$CIRCLE_BRANCH" "$CIRCLE_REPOSITORY_URL"
       - run: 
           name: "Semgrep pull request scan"
           command: |
