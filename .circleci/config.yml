@@ -4,7 +4,11 @@ jobs:
     docker:
       - image: returntocorp/semgrep
     steps:
-      - run: git clone --depth=100  -b "$CIRCLE_BRANCH" "$CIRCLE_REPOSITORY_URL"
+      - checkout
+      - run: 
+          name: "check git diff"
+          command: |
+            git diff --name-only $CIRCLE_BRANCH origin/master
       - run: 
           name: "Semgrep full scan"
           command: |
@@ -20,7 +24,11 @@ jobs:
     docker:
       - image: returntocorp/semgrep
     steps:
-      - run: git clone --depth=100  -b "$CIRCLE_BRANCH" "$CIRCLE_REPOSITORY_URL"
+      - checkout
+      - run: 
+          name: "check git diff"
+          command: |
+            git diff --name-only $CIRCLE_BRANCH origin/master
       - run: 
           name: "Semgrep pull request scan"
           command: |
