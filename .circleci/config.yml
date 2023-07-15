@@ -8,8 +8,8 @@ jobs:
       - run: 
           name: "check git diff origin/master"
           command: |
-      - run: 
             git diff --cached --name-status --no-ext-diff -z --diff-filter=ACDMRTUXB --ignore-submodules --merge-base origin/master
+      - run: 
           name: "check git diff master"
           command: |
             git diff --cached --name-status --no-ext-diff -z --diff-filter=ACDMRTUXB --ignore-submodules --merge-base master
