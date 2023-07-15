@@ -41,7 +41,7 @@ jobs:
           name: "Semgrep pull request scan"
           command: |
             echo "This is a pull request semgrep scan"
-            semgrep ci 
+            semgrep ci --debug
 workflows:
   version: 2
   scan:
