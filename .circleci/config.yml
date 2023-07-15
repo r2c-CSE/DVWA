@@ -6,9 +6,13 @@ jobs:
     steps:
       - checkout
       - run: 
-          name: "check git diff"
+          name: "check git diff origin/master"
           command: |
-            git diff --name-only $CIRCLE_BRANCH origin/master
+      - run: 
+            git diff --cached --name-status --no-ext-diff -z --diff-filter=ACDMRTUXB --ignore-submodules --merge-base origin/master
+          name: "check git diff master"
+          command: |
+            git diff --cached --name-status --no-ext-diff -z --diff-filter=ACDMRTUXB --ignore-submodules --merge-base master
       - run: 
           name: "Semgrep full scan"
           command: |
@@ -26,9 +30,13 @@ jobs:
     steps:
       - checkout
       - run: 
-          name: "check git diff"
+          name: "check git diff origin/master"
           command: |
-            git diff --name-only $CIRCLE_BRANCH origin/master
+            git diff --cached --name-status --no-ext-diff -z --diff-filter=ACDMRTUXB --ignore-submodules --merge-base origin/master
+      - run: 
+          name: "check git diff master"
+          command: |
+            git diff --cached --name-status --no-ext-diff -z --diff-filter=ACDMRTUXB --ignore-submodules --merge-base master
       - run: 
           name: "Semgrep pull request scan"
           command: |
