@@ -41,7 +41,7 @@ jobs:
           name: "Semgrep pull request scan"
           command: |
             echo "This is a pull request semgrep scan"
-            semgrep ci --debug
+            semgrep ci --baseline-commit=$(git merge-base HEAD master)
 workflows:
   version: 2
   scan:
