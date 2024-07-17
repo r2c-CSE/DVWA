@@ -15,6 +15,7 @@ jobs:
           directories=$(ls -d vulnerabilities/*/)
           trimmed_directories=$(echo "$directories" | sed 's/.$//')
           directories_json=$(printf '%s\n' $trimmed_directories | jq -R . | jq -s -c .)
+          echo "Directories JSON: $directories_json"
           echo "paths=$directories_json" >> "$GITHUB_OUTPUT"
 
   # scans:
