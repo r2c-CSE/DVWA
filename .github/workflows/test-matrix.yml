@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v4
       - id: paths
         run: |
-          directories=$(ls -d testcases/*/)
+          directories=$(ls -d vulnerabilities/*/)
           trimmed_directories=$(echo "$directories" | sed 's/.$//')
           directories_json=$(printf '%s\n' $trimmed_directories | jq -R . | jq -s -c .)
           echo "paths=$directories_json" >> "$GITHUB_OUTPUT"
