@@ -1,0 +1,37 @@
+name: test-matrix
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  define-matrix:
+    runs-on: ubuntu-latest
+    outputs: 
+      matrix: ${{ steps.paths.outputs.paths }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - id: paths
+        run: |
+          directories=$(ls -d testcases/*/)
+          trimmed_directories=$(echo "$directories" | sed 's/.$//')
+          directories_json=$(printf '%s\n' $trimmed_directories | jq -R . | jq -s -c .)
+          echo "paths=$directories_json" >> "$GITHUB_OUTPUT"
+
+  scans:
+    runs-on: ubuntu-latest
+    needs: define-matrix
+    env:
+      SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+      SEMGREP_REPO_DISPLAY_NAME: ${{ github.repository }}/${{ matrix.path }}
+    container:
+      image: semgrep/semgrep
+    strategy:
+      matrix:
+        path: ${{ fromJson(needs.define-matrix.outputs.matrix) }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+          
+      - name: Scan each path
+        run: |
+          semgrep ci --code --pro --include "./testcasesupport" --include "${{ matrix.path }}" --trace --trace-endpoint semgrep-dev
